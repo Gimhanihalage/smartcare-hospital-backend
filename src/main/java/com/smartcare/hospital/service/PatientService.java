@@ -27,6 +27,11 @@ public class PatientService {
     public Patient save(Patient patient) {
         return patientRepository.save(patient);
     }
+
+    public void delete(Integer id) {
+        if (!patientRepository.existsById(id)) {
+            throw new RuntimeException("Patient not found with id: " + id);
+        }
+        patientRepository.deleteById(id);
+    }
 }
-
-

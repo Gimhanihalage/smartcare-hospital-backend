@@ -27,4 +27,11 @@ public class BillService {
     public Bill save(Bill bill) {
         return billRepository.save(bill);
     }
+
+    public void delete(Integer id) {
+        if (!billRepository.existsById(id)) {
+            throw new RuntimeException("Bill not found with id: " + id);
+        }
+        billRepository.deleteById(id);
+    }
 }

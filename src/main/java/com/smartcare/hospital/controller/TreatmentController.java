@@ -32,4 +32,16 @@ public class TreatmentController {
         Treatment saved = treatmentService.save(treatment);
         return ResponseEntity.ok(saved);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Treatment> updateTreatment(@PathVariable Integer id, @RequestBody Treatment treatment) {
+        Treatment updated = treatmentService.update(id, treatment);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTreatment(@PathVariable Integer id) {
+        treatmentService.delete(id);
+        return ResponseEntity.ok("Treatment deleted successfully with ID: " + id);
+    }
 }

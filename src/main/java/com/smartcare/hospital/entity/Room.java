@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 public class Room {
 
     @Id
-    @Column(name = "Bed_Number", length = 20)
-    private String bedNumber;
+    @Column(name = "Room_Id", length = 20)
+    private Integer roomId;
 
     @Column(name = "Availability_Status", length = 20)
     private String availabilityStatus;
@@ -19,12 +19,12 @@ public class Room {
     public Room() {
     }
 
-    public String getBedNumber() {
-        return bedNumber;
+    public Integer getRoomId() {
+        return roomId;
     }
 
-    public void setBedNumber(String bedNumber) {
-        this.bedNumber = bedNumber;
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
     }
 
     public String getAvailabilityStatus() {

@@ -27,4 +27,26 @@ public class TreatmentService {
     public Treatment save(Treatment treatment) {
         return treatmentRepository.save(treatment);
     }
+
+    public Treatment update(Integer id, Treatment treatment) {
+        Treatment existing = treatmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Treatment not found with id: " + id));
+
+        existing.setDiagnosis(treatment.getDiagnosis());
+        existing.setPrescriptionDetails(treatment.getPrescriptionDetails());
+        existing.setTreatmentNotes(treatment.getTreatmentNotes());
+        existing.setTreatmentDate(treatment.getTreatmentDate());
+        existing.setAppointment(treatment.getAppointment());
+        existing.setPatient(treatment.getPatient());
+        existing.setDoctor(treatment.getDoctor());
+
+        return treatmentRepository.save(existing);
+    }
+
+    public void delete(Integer id) {
+        if (!treatmentRepository.existsById(id)) {
+            throw new RuntimeException("Treatment not found with id: " + id);
+        }
+        treatmentRepository.deleteById(id);
+    }
 }

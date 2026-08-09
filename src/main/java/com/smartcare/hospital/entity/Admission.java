@@ -10,13 +10,13 @@ public class Admission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admission_id")
-    private Long admissionId;
+    private Integer  admissionId;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    // Bed_Id වෙනුවට දැන් Bed_Number (Bed එකේ PK එක) column එකට FK එකක්
+
     @ManyToOne
     @JoinColumn(name = "bed_number")
     private Bed bed;
@@ -31,8 +31,8 @@ public class Admission {
     private String admissionStatus;
 
     // Encapsulation - getters & setters
-    public Long getAdmissionId() { return admissionId; }
-    public void setAdmissionId(Long admissionId) { this.admissionId = admissionId; }
+    public Integer getAdmissionId() { return admissionId; }
+    public void setAdmissionId(Integer admissionId) { this.admissionId = admissionId; }
 
     public Patient getPatient() { return patient; }
     public void setPatient(Patient patient) { this.patient = patient; }

@@ -2,6 +2,7 @@ package com.smartcare.hospital.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Doctor")
@@ -29,6 +30,7 @@ public class Doctor {
 
     @ManyToOne
     @JoinColumn(name = "Department_ID")
+    @JsonIgnoreProperties({"headDoctor"})
     private Department department;
 
     public Doctor() {

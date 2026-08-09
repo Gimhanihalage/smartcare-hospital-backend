@@ -19,13 +19,29 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    // Room's primary key is the bed number itself (e.g. "B-101"), not a generated id
-    public Room getById(String bedNumber) {
-        return roomRepository.findById(bedNumber)
-                .orElseThrow(() -> new RuntimeException("Room not found with bed number: " + bedNumber));
+    public Room getById(Integer roomId) {
+        return roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found with id: " + roomId));
     }
 
     public Room save(Room room) {
         return roomRepository.save(room);
+    }
+
+    public Room update(Integer roomId, Room room) {
+        Room existing = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found with id: " + roomId));
+
+        existing.setRoomCategory(room.getRoomCategory());
+        existing.setAvailabilityStatus(room.getAvailabilityStatus());
+
+        return roomRepository.save(existing);
+    }
+
+    public void delete(Integer roomId) {
+        if (!roomRepository.existsById(roomId)) {
+            throw new RuntimeException("Room not found with id: " + roomId);
+        }
+        roomRepository.deleteById(roomId);
     }
 }

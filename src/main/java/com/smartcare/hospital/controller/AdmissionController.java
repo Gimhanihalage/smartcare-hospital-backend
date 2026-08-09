@@ -22,7 +22,7 @@ public class AdmissionController {
 
     // 2. Discharge Patient (PUT)
     @PutMapping("/{id}/discharge")
-    public Admission discharge(@PathVariable Long id) {
+    public Admission discharge(@PathVariable Integer id) {
         return admissionService.dischargePatient(id);
     }
 
@@ -30,5 +30,10 @@ public class AdmissionController {
     @GetMapping
     public List<Admission> getAllAdmissions() {
         return admissionService.getAllAdmissions();
+    }
+    // 4. Get Admission by ID (GET)
+    @GetMapping("/{id}")
+    public Admission getById(@PathVariable Integer id) {
+        return admissionService.getAdmissionById(id);
     }
 }

@@ -20,22 +20,32 @@ public class BedController {
     }
 
     @GetMapping
-    public List<Bed> getAllBeds() {
+    public List<Bed> getAll() {
         return bedService.getAllBeds();
     }
 
-    @GetMapping("/{id}")
-    public Bed getBedById(@PathVariable Long id) {
-        return bedService.getBedById(id);
+    @GetMapping("/{bedNumber}")
+    public Bed getByNumber(@PathVariable String bedNumber) {
+        return bedService.getBedByNumber(bedNumber);
     }
 
-    @PutMapping("/{id}")
-    public Bed updateBed(@PathVariable Long id, @RequestBody Bed bed) {
-        return bedService.updateBed(id, bed);
+    @PutMapping("/{bedNumber}")
+    public Bed update(@PathVariable String bedNumber, @RequestBody Bed bed) {
+        return bedService.updateBed(bedNumber, bed);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteBed(@PathVariable Long id) {
-        bedService.deleteBed(id);
+    @DeleteMapping("/{bedNumber}")
+    public void delete(@PathVariable String bedNumber) {
+        bedService.deleteBed(bedNumber);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public List<Bed> getByRoom(@PathVariable Integer  roomId) {
+        return bedService.getBedsByRoom(roomId);
+    }
+
+    @GetMapping("/available")
+    public List<Bed> getAvailable() {
+        return bedService.getAvailableBeds();
     }
 }

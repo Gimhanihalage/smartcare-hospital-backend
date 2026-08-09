@@ -25,12 +25,16 @@ public class Treatment {
     private LocalDate treatmentDate;
 
     @ManyToOne
-    @JoinColumn(name = "Appointment_ID", nullable = false)
+    @JoinColumn(name = "Appointment_ID", nullable = true)
     private Appointment appointment;
 
     @ManyToOne
-    @JoinColumn(name = "Bill_ID", nullable = false)
-    private Bill bill;
+    @JoinColumn(name = "Patient_ID", nullable = false)
+    private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "Doctor_ID", nullable = false)
+    private Doctor doctor;
 
     public Treatment() {
     }
@@ -83,11 +87,19 @@ public class Treatment {
         this.appointment = appointment;
     }
 
-    public Bill getBill() {
-        return bill;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setBill(Bill bill) {
-        this.bill = bill;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }

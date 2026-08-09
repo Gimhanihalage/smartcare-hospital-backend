@@ -30,6 +30,9 @@ public class Laboratory {
     @ManyToOne
     @JoinColumn(name = "Patient_ID", nullable = false)
     private Patient patient;
+    @ManyToOne
+    @JoinColumn(name = "Doctor_ID", nullable = false)
+    private Doctor doctor;
 
     public Laboratory() {
     }
@@ -88,5 +91,12 @@ public class Laboratory {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }

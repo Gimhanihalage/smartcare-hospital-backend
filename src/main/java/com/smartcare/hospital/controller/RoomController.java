@@ -22,15 +22,26 @@ public class RoomController {
         return ResponseEntity.ok(roomService.getAll());
     }
 
-    // Room's id is the bed number itself, e.g. GET /api/rooms/B-101
-    @GetMapping("/{bedNumber}")
-    public ResponseEntity<Room> getRoomByBedNumber(@PathVariable String bedNumber) {
-        return ResponseEntity.ok(roomService.getById(bedNumber));
+    @GetMapping("/{roomId}")
+    public ResponseEntity<Room> getRoomById(@PathVariable Integer roomId) {
+        return ResponseEntity.ok(roomService.getById(roomId));
     }
 
     @PostMapping
     public ResponseEntity<Room> createRoom(@RequestBody Room room) {
         Room saved = roomService.save(room);
         return ResponseEntity.ok(saved);
+    }
+
+    @PutMapping("/{roomId}")
+    public ResponseEntity<Room> updateRoom(@PathVariable Integer roomId, @RequestBody Room room) {
+        Room updated = roomService.update(roomId, room);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{roomId}")
+    public ResponseEntity<String> deleteRoom(@PathVariable Integer roomId) {
+        roomService.delete(roomId);
+        return ResponseEntity.ok("Room deleted successfully: " + roomId);
     }
 }

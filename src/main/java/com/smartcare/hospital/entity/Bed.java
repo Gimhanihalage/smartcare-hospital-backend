@@ -1,35 +1,29 @@
 package com.smartcare.hospital.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "bed")
 public class Bed {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(name = "bed_number")
     private String bedNumber;
 
-    public Bed() {}
+    @Column(name = "bed_status")
+    private String bedStatus; // AVAILABLE / OCCUPIED
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Encapsulation - getters & setters
+    public String getBedNumber() { return bedNumber; }
+    public void setBedNumber(String bedNumber) { this.bedNumber = bedNumber; }
 
-    public String getBedNumber() {
-        return bedNumber;
-    }
+    public String getBedStatus() { return bedStatus; }
+    public void setBedStatus(String bedStatus) { this.bedStatus = bedStatus; }
 
-    public void setBedNumber(String bedNumber) {
-        this.bedNumber = bedNumber;
-    }
+    public Room getRoom() { return room; }
+    public void setRoom(Room room) { this.room = room; }
 }
-

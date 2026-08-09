@@ -32,4 +32,16 @@ public class LaboratoryController {
         Laboratory saved = laboratoryService.save(labTest);
         return ResponseEntity.ok(saved);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Laboratory> updateLabTest(@PathVariable Integer id, @RequestBody Laboratory labTest) {
+        Laboratory updated = laboratoryService.update(id, labTest);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteLabTest(@PathVariable Integer id) {
+        laboratoryService.delete(id);
+        return ResponseEntity.ok("Lab test deleted successfully with ID: " + id);
+    }
 }

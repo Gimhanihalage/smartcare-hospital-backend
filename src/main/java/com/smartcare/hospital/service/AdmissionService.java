@@ -5,7 +5,9 @@ import com.smartcare.hospital.repository.AdmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class AdmissionService {
@@ -17,16 +19,23 @@ public class AdmissionService {
         return admissionRepository.save(admission);
     }
 
-    public Admission dischargePatient(Long id) {
-        Admission admission = admissionRepository.findById(id).orElse(null);
-        if (admission != null) {
-            // අවශ්‍ය නම් මෙහිදී discharge status වෙනස් කළ හැක
-            return admissionRepository.save(admission);
-        }
-        return null;
+    public Admission dischargePatient(Integer id) {
+        Admission admission = admissionRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Admission not found with ID: " + id));
+
+        // Actual discharge logic - update fields
+        admission.setDischargeDate(LocalDate.now());
+        admission.setAdmissionStatus("DISCHARGED");
+
+        return admissionRepository.save(admission);
     }
 
     public List<Admission> getAllAdmissions() {
         return admissionRepository.findAll();
+    }
+
+    public Admission getAdmissionById(Integer id) {
+        return admissionRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Admission not found with ID: " + id));
     }
 }
