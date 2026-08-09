@@ -20,11 +20,14 @@ public class AppointmentService {
     }
 
     public Appointment getById(Integer id) {
-        return appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+        return appointmentRepository.findById(id).orElse(null);
     }
 
     public Appointment save(Appointment appointment) {
         return appointmentRepository.save(appointment);
+    }
+
+    public void delete(Integer id) {
+        appointmentRepository.deleteById(id);
     }
 }

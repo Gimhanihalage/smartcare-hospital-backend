@@ -20,11 +20,15 @@ public class DepartmentService {
     }
 
     public Department getById(Integer id) {
-        return departmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
+        return departmentRepository.findById(id).orElse(null);
     }
 
     public Department save(Department department) {
         return departmentRepository.save(department);
+    }
+
+    // මෙන්න මේ method එක එකතු කරන්න:
+    public void delete(Integer id) {
+        departmentRepository.deleteById(id);
     }
 }

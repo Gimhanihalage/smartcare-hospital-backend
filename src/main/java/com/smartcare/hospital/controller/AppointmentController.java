@@ -32,4 +32,17 @@ public class AppointmentController {
         Appointment saved = appointmentService.save(appointment);
         return ResponseEntity.ok(saved);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Appointment> updateAppointment(@PathVariable Integer id, @RequestBody Appointment appointment) {
+        appointment.setAppointmentId(id);
+        Appointment updated = appointmentService.save(appointment);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAppointment(@PathVariable Integer id) {
+        appointmentService.delete(id);
+        return ResponseEntity.ok("Appointment deleted successfully with ID: " + id);
+    }
 }

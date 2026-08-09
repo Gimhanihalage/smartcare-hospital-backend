@@ -4,79 +4,48 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Admission")
+@Table(name = "admission")
 public class Admission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Admission_ID")
-    private Integer admissionId;
-
-    @Column(name = "Admission_Date")
-    private LocalDate admissionDate;
-
-    @Column(name = "Discharge_Date")
-    private LocalDate dischargeDate;
-
-    @Column(name = "Admission_Status", length = 20)
-    private String admissionStatus;
+    @Column(name = "admission_id")
+    private Long admissionId;
 
     @ManyToOne
-    @JoinColumn(name = "Patient_ID", nullable = false)
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    // Bed_Id වෙනුවට දැන් Bed_Number (Bed එකේ PK එක) column එකට FK එකක්
     @ManyToOne
-    @JoinColumn(name = "Bed_Number")
-    private Room room;
+    @JoinColumn(name = "bed_number")
+    private Bed bed;
 
-    public Admission() {
-    }
+    @Column(name = "admission_date")
+    private LocalDate admissionDate;
 
-    public Integer getAdmissionId() {
-        return admissionId;
-    }
+    @Column(name = "discharge_date")
+    private LocalDate dischargeDate;
 
-    public void setAdmissionId(Integer admissionId) {
-        this.admissionId = admissionId;
-    }
+    @Column(name = "admission_status")
+    private String admissionStatus;
 
-    public LocalDate getAdmissionDate() {
-        return admissionDate;
-    }
+    // Encapsulation - getters & setters
+    public Long getAdmissionId() { return admissionId; }
+    public void setAdmissionId(Long admissionId) { this.admissionId = admissionId; }
 
-    public void setAdmissionDate(LocalDate admissionDate) {
-        this.admissionDate = admissionDate;
-    }
+    public Patient getPatient() { return patient; }
+    public void setPatient(Patient patient) { this.patient = patient; }
 
-    public LocalDate getDischargeDate() {
-        return dischargeDate;
-    }
+    public Bed getBed() { return bed; }
+    public void setBed(Bed bed) { this.bed = bed; }
 
-    public void setDischargeDate(LocalDate dischargeDate) {
-        this.dischargeDate = dischargeDate;
-    }
+    public LocalDate getAdmissionDate() { return admissionDate; }
+    public void setAdmissionDate(LocalDate admissionDate) { this.admissionDate = admissionDate; }
 
-    public String getAdmissionStatus() {
-        return admissionStatus;
-    }
+    public LocalDate getDischargeDate() { return dischargeDate; }
+    public void setDischargeDate(LocalDate dischargeDate) { this.dischargeDate = dischargeDate; }
 
-    public void setAdmissionStatus(String admissionStatus) {
-        this.admissionStatus = admissionStatus;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
+    public String getAdmissionStatus() { return admissionStatus; }
+    public void setAdmissionStatus(String admissionStatus) { this.admissionStatus = admissionStatus; }
 }

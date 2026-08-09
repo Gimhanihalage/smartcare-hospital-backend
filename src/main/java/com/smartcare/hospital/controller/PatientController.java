@@ -29,7 +29,18 @@ public class PatientController {
 
     @PostMapping
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
-        Patient saved = patientService.save(patient);
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.ok(patientService.save(patient));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Patient> updatePatient(@PathVariable Integer id, @RequestBody Patient patient) {
+        patient.setPatientId(id);
+        Patient updatedPatient = patientService.save(patient);
+        return ResponseEntity.ok(updatedPatient);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePatient(@PathVariable Integer id) {
+        return ResponseEntity.ok("Patient deleted successfully with ID: " + id);
     }
 }

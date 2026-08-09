@@ -2,7 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.Admission;
 import com.smartcare.hospital.service.AdmissionService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,25 +11,24 @@ import java.util.List;
 @RequestMapping("/api/admissions")
 public class AdmissionController {
 
-    private final AdmissionService admissionService;
+    @Autowired
+    private AdmissionService admissionService;
 
-    public AdmissionController(AdmissionService admissionService) {
-        this.admissionService = admissionService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Admission>> getAllAdmissions() {
-        return ResponseEntity.ok(admissionService.getAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Admission> getAdmissionById(@PathVariable Integer id) {
-        return ResponseEntity.ok(admissionService.getById(id));
-    }
-
+    // 1. Admit Patient (POST)
     @PostMapping
-    public ResponseEntity<Admission> createAdmission(@RequestBody Admission admission) {
-        Admission saved = admissionService.save(admission);
-        return ResponseEntity.ok(saved);
+    public Admission admit(@RequestBody Admission admission) {
+        return admissionService.admitPatient(admission);
+    }
+
+    // 2. Discharge Patient (PUT)
+    @PutMapping("/{id}/discharge")
+    public Admission discharge(@PathVariable Long id) {
+        return admissionService.dischargePatient(id);
+    }
+
+    // 3. Get All Admissions (GET)
+    @GetMapping
+    public List<Admission> getAllAdmissions() {
+        return admissionService.getAllAdmissions();
     }
 }

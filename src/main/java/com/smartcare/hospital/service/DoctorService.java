@@ -20,11 +20,14 @@ public class DoctorService {
     }
 
     public Doctor getById(Integer id) {
-        return doctorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found with id: " + id));
+        return doctorRepository.findById(id).orElse(null);
     }
 
     public Doctor save(Doctor doctor) {
         return doctorRepository.save(doctor);
+    }
+
+    public void delete(Integer id) {
+        doctorRepository.deleteById(id);
     }
 }
