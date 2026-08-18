@@ -1,12 +1,12 @@
 package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Appointment;
+import com.smartcare.hospital.ResourceNotFoundException.java.ResourceNotFoundException;
 import com.smartcare.hospital.repository.AppointmentRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class AppointmentService {
@@ -23,7 +23,7 @@ public class AppointmentService {
 
     public Appointment getById(Integer id) {
         return appointmentRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Appointment not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with ID: " + id));
     }
 
     public Appointment save(Appointment appointment) {
@@ -58,7 +58,7 @@ public class AppointmentService {
 
     public void delete(Integer id) {
         if (!appointmentRepository.existsById(id)) {
-            throw new NoSuchElementException("Appointment not found with ID: " + id);
+            throw new ResourceNotFoundException("Appointment not found with ID: " + id);
         }
         appointmentRepository.deleteById(id);
     }

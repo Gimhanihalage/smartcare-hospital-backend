@@ -2,6 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.Bed;
 import com.smartcare.hospital.service.BedService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class BedController {
     private BedService bedService;
 
     @PostMapping
-    public Bed addBed(@RequestBody Bed bed) {
+    public Bed addBed(@Valid @RequestBody Bed bed) {
         return bedService.addBed(bed);
     }
 
@@ -30,7 +31,7 @@ public class BedController {
     }
 
     @PutMapping("/{bedNumber}")
-    public Bed update(@PathVariable String bedNumber, @RequestBody Bed bed) {
+    public Bed update(@PathVariable String bedNumber, @Valid @RequestBody Bed bed) {
         return bedService.updateBed(bedNumber, bed);
     }
 
@@ -40,7 +41,7 @@ public class BedController {
     }
 
     @GetMapping("/room/{roomId}")
-    public List<Bed> getByRoom(@PathVariable Integer  roomId) {
+    public List<Bed> getByRoom(@PathVariable Integer roomId) {
         return bedService.getBedsByRoom(roomId);
     }
 

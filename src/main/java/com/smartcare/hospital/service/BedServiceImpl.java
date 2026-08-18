@@ -1,6 +1,7 @@
 package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Bed;
+import com.smartcare.hospital.ResourceNotFoundException.java.ResourceNotFoundException;
 import com.smartcare.hospital.repository.BedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,23 +21,26 @@ public class BedServiceImpl implements BedService {
 
     @Override
     public Bed updateBed(String bedNumber, Bed bed) {
-        Bed existingBed = bedRepository.findById(bedNumber).orElse(null);
-        if (existingBed != null) {
-            existingBed.setBedStatus(bed.getBedStatus());
-            existingBed.setRoom(bed.getRoom());
-            return bedRepository.save(existingBed);
-        }
-        return null;
+        Bed existingBed = bedRepository.findById(bedNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Bed not found with number: " + bedNumber));
+
+        existingBed.setBedStatus(bed.getBedStatus());
+        existingBed.setRoom(bed.getRoom());
+        return bedRepository.save(existingBed);
     }
 
     @Override
     public void deleteBed(String bedNumber) {
+        if (!bedRepository.existsById(bedNumber)) {
+            throw new ResourceNotFoundException("Bed not found with number: " + bedNumber);
+        }
         bedRepository.deleteById(bedNumber);
     }
 
     @Override
     public Bed getBedByNumber(String bedNumber) {
-        return bedRepository.findById(bedNumber).orElse(null);
+        return bedRepository.findById(bedNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Bed not found with number: " + bedNumber));
     }
 
     @Override
@@ -48,7 +52,6 @@ public class BedServiceImpl implements BedService {
     public List<Bed> getBedsByRoom(Integer roomId) {
         return bedRepository.findByRoom_RoomId(roomId);
     }
-
 
     @Override
     public List<Bed> getAvailableBeds() {

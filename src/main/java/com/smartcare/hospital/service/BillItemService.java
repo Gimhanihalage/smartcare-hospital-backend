@@ -2,6 +2,7 @@ package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Bill;
 import com.smartcare.hospital.entity.BillItem;
+import com.smartcare.hospital.ResourceNotFoundException.java.ResourceNotFoundException;
 import com.smartcare.hospital.repository.BillItemRepository;
 import com.smartcare.hospital.repository.BillRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class BillItemService {
 
     public BillItem getById(Integer id) {
         return billItemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Bill item not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Bill item not found with id: " + id));
     }
 
     public BillItem save(BillItem billItem) {
@@ -37,7 +38,7 @@ public class BillItemService {
 
     public void delete(Integer id) {
         BillItem item = billItemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Bill item not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Bill item not found with id: " + id));
         Integer billId = item.getBill().getBillId();
         billItemRepository.deleteById(id);
         recalculateBillTotal(billId);
@@ -53,7 +54,7 @@ public class BillItemService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Bill bill = billRepository.findById(billId)
-                .orElseThrow(() -> new RuntimeException("Bill not found with id: " + billId));
+                .orElseThrow(() -> new ResourceNotFoundException("Bill not found with id: " + billId));
 
         bill.setTotalAmount(total);
         billRepository.save(bill);

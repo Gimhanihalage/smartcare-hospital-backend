@@ -1,18 +1,24 @@
 package com.smartcare.hospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "bed")
 public class Bed {
 
     @Id
+    @NotBlank(message = "Bed number is required")
+    @Size(max = 10, message = "Bed number cannot exceed 10 characters")
     @Column(name = "bed_number")
     private String bedNumber;
 
+    @NotBlank(message = "Bed status is required")
+    @Pattern(regexp = "AVAILABLE|OCCUPIED", message = "Bed status must be AVAILABLE or OCCUPIED")
     @Column(name = "bed_status")
-    private String bedStatus; // AVAILABLE / OCCUPIED
+    private String bedStatus;
 
+    @NotNull(message = "Room is required")
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;

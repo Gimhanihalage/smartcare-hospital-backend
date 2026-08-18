@@ -2,6 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.Admission;
 import com.smartcare.hospital.service.AdmissionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class AdmissionController {
 
     // 1. Admit Patient (POST)
     @PostMapping
-    public Admission admit(@RequestBody Admission admission) {
+    public Admission admit(@Valid @RequestBody Admission admission) {
         return admissionService.admitPatient(admission);
     }
 
@@ -31,6 +32,7 @@ public class AdmissionController {
     public List<Admission> getAllAdmissions() {
         return admissionService.getAllAdmissions();
     }
+
     // 4. Get Admission by ID (GET)
     @GetMapping("/{id}")
     public Admission getById(@PathVariable Integer id) {

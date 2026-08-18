@@ -2,6 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.Room;
 import com.smartcare.hospital.service.RoomService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +29,13 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<Room> createRoom(@RequestBody Room room) {
+    public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room) {
         Room saved = roomService.save(room);
         return ResponseEntity.ok(saved);
     }
 
     @PutMapping("/{roomId}")
-    public ResponseEntity<Room> updateRoom(@PathVariable Integer roomId, @RequestBody Room room) {
+    public ResponseEntity<Room> updateRoom(@PathVariable Integer roomId, @Valid @RequestBody Room room) {
         Room updated = roomService.update(roomId, room);
         return ResponseEntity.ok(updated);
     }

@@ -1,6 +1,7 @@
 package com.smartcare.hospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,15 +14,23 @@ public class Bill {
     @Column(name = "Bill_ID")
     private Integer billId;
 
+    @NotNull(message = "Bill date is required")
+    @PastOrPresent(message = "Bill date cannot be in the future")
     @Column(name = "Bill_Date")
     private LocalDate billDate;
 
+    @NotNull(message = "Total amount is required")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Total amount cannot be negative")
+    @Digits(integer = 8, fraction = 2, message = "Total amount format is invalid")
     @Column(name = "Total_Amount", precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
+    @NotBlank(message = "Payment status is required")
+    @Pattern(regexp = "PAID|UNPAID|PENDING", message = "Payment status must be PAID, UNPAID, or PENDING")
     @Column(name = "Payment_Status", length = 20)
     private String paymentStatus;
 
+    @Size(max = 30, message = "Payment method cannot exceed 30 characters")
     @Column(name = "Payment_Method", length = 30)
     private String paymentMethod;
 
@@ -32,6 +41,11 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "Appointment_ID", nullable = true)
     private Appointment appointment;
+
+    @NotNull(message = "Patient is required")
+    @ManyToOne
+    @JoinColumn(name = "Patient_ID", nullable = false)
+    private Patient patient;
 
     public Bill() {
     }
@@ -90,5 +104,13 @@ public class Bill {
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

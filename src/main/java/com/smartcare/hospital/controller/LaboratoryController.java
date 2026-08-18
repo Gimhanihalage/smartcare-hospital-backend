@@ -2,6 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.Laboratory;
 import com.smartcare.hospital.service.LaboratoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +29,13 @@ public class LaboratoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Laboratory> createLabTest(@RequestBody Laboratory labTest) {
-        Laboratory saved = laboratoryService.save(labTest);
+    public ResponseEntity<Laboratory> createLabTest(@Valid @RequestBody Laboratory labTest) {
+        Laboratory saved = laboratoryService.saveLaboratory(labTest);
         return ResponseEntity.ok(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Laboratory> updateLabTest(@PathVariable Integer id, @RequestBody Laboratory labTest) {
+    public ResponseEntity<Laboratory> updateLabTest(@PathVariable Integer id, @Valid @RequestBody Laboratory labTest) {
         Laboratory updated = laboratoryService.update(id, labTest);
         return ResponseEntity.ok(updated);
     }

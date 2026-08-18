@@ -2,6 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.Doctor;
 import com.smartcare.hospital.service.DoctorService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,12 @@ public class DoctorController {
     }
 
     @PostMapping
-    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
+    public ResponseEntity<Doctor> createDoctor(@Valid @RequestBody Doctor doctor) {
         return ResponseEntity.ok(doctorService.save(doctor));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable Integer id, @RequestBody Doctor doctor) {
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable Integer id, @Valid @RequestBody Doctor doctor) {
         doctor.setDoctorId(id);
         return ResponseEntity.ok(doctorService.save(doctor));
     }

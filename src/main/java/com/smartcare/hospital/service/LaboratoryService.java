@@ -1,6 +1,7 @@
 package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Laboratory;
+import com.smartcare.hospital.ResourceNotFoundException.java.ResourceNotFoundException;
 import com.smartcare.hospital.repository.LaboratoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,20 +22,23 @@ public class LaboratoryService {
 
     public Laboratory getById(Integer id) {
         return laboratoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lab test not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Lab test not found with id: " + id));
     }
 
-    public Laboratory save(Laboratory labTest) {
-        // Default status if not provided
-        if (labTest.getTestStatus() == null || labTest.getTestStatus().isBlank()) {
-            labTest.setTestStatus("PENDING");
+    public Laboratory saveLaboratory(Laboratory laboratory) {
+        if (laboratory.getTestDate() != null &&
+                laboratory.getTestDate().isAfter(java.time.LocalDate.now())) {
+            throw new IllegalArgumentException("Test date cannot be in the future.");
         }
-        return laboratoryRepository.save(labTest);
+        if (laboratory.getTestStatus() == null || laboratory.getTestStatus().isBlank()) {
+            laboratory.setTestStatus("PENDING");
+        }
+        return laboratoryRepository.save(laboratory);
     }
 
     public Laboratory update(Integer id, Laboratory labTest) {
         Laboratory existing = laboratoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Lab test not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Lab test not found with id: " + id));
 
         existing.setTestName(labTest.getTestName());
         existing.setTestDate(labTest.getTestDate());
@@ -49,7 +53,7 @@ public class LaboratoryService {
 
     public void delete(Integer id) {
         if (!laboratoryRepository.existsById(id)) {
-            throw new RuntimeException("Lab test not found with id: " + id);
+            throw new ResourceNotFoundException("Lab test not found with id: " + id);
         }
         laboratoryRepository.deleteById(id);
     }

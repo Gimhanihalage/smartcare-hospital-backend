@@ -2,6 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.Department;
 import com.smartcare.hospital.service.DepartmentService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +29,13 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Department> createDepartment(@RequestBody Department department) {
+    public ResponseEntity<Department> createDepartment(@Valid @RequestBody Department department) {
         Department saved = departmentService.save(department);
         return ResponseEntity.ok(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Department> updateDepartment(@PathVariable Integer id, @RequestBody Department department) {
+    public ResponseEntity<Department> updateDepartment(@PathVariable Integer id, @Valid @RequestBody Department department) {
         department.setDepartmentId(id);
         Department updated = departmentService.save(department);
         return ResponseEntity.ok(updated);

@@ -1,13 +1,13 @@
 package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Admission;
+import com.smartcare.hospital.ResourceNotFoundException.java.ResourceNotFoundException;
 import com.smartcare.hospital.repository.AdmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class AdmissionService {
@@ -21,11 +21,11 @@ public class AdmissionService {
 
     public Admission dischargePatient(Integer id) {
         Admission admission = admissionRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Admission not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Admission not found with ID: " + id));
 
         // Actual discharge logic - update fields
         admission.setDischargeDate(LocalDate.now());
-        admission.setAdmissionStatus("DISCHARGED");
+        admission.setAdmissionStatus("Discharged");
 
         return admissionRepository.save(admission);
     }
@@ -36,6 +36,6 @@ public class AdmissionService {
 
     public Admission getAdmissionById(Integer id) {
         return admissionRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Admission not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Admission not found with ID: " + id));
     }
 }

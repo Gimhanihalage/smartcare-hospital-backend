@@ -1,6 +1,7 @@
 package com.smartcare.hospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
@@ -12,24 +13,33 @@ public class Laboratory {
     @Column(name = "LabTest_ID")
     private Integer labTestId;
 
+    @NotBlank(message = "Test name is required")
+    @Size(max = 100, message = "Test name cannot exceed 100 characters")
     @Column(name = "Test_Name", length = 100)
     private String testName;
 
+    @NotNull(message = "Test date is required")
     @Column(name = "Test_Date")
     private LocalDate testDate;
 
+    @Size(max = 255, message = "Test result cannot exceed 255 characters")
     @Column(name = "Test_Result", length = 255)
     private String testResult;
 
+    @Pattern(regexp = "PENDING|COMPLETED|CANCELLED", message = "Test status must be PENDING, COMPLETED, or CANCELLED")
     @Column(name = "Test_Status", length = 20)
     private String testStatus;
 
+    @Size(max = 100, message = "Technician name cannot exceed 100 characters")
     @Column(name = "Technician_Name", length = 100)
     private String technicianName;
 
+    @NotNull(message = "Patient is required")
     @ManyToOne
     @JoinColumn(name = "Patient_ID", nullable = false)
     private Patient patient;
+
+    @NotNull(message = "Doctor is required")
     @ManyToOne
     @JoinColumn(name = "Doctor_ID", nullable = false)
     private Doctor doctor;
@@ -92,6 +102,7 @@ public class Laboratory {
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
+
     public Doctor getDoctor() {
         return doctor;
     }

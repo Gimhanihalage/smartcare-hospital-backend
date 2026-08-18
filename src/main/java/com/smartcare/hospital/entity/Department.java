@@ -1,6 +1,7 @@
 package com.smartcare.hospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "Department")
@@ -11,9 +12,12 @@ public class Department {
     @Column(name = "Department_Id")
     private Integer departmentId;
 
+    @NotBlank(message = "Department name is required")
+    @Size(max = 100, message = "Department name cannot exceed 100 characters")
     @Column(name = "Department_Name", nullable = false, length = 100)
     private String departmentName;
 
+    @Size(max = 100, message = "Location cannot exceed 100 characters")
     @Column(name = "Location", length = 100)
     private String location;
 

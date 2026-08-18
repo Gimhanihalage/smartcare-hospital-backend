@@ -1,6 +1,7 @@
 package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Treatment;
+import com.smartcare.hospital.ResourceNotFoundException.java.ResourceNotFoundException;
 import com.smartcare.hospital.repository.TreatmentRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +22,20 @@ public class TreatmentService {
 
     public Treatment getById(Integer id) {
         return treatmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Treatment not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Treatment not found with id: " + id));
     }
 
     public Treatment save(Treatment treatment) {
+        if (treatment.getTreatmentDate() != null &&
+                treatment.getTreatmentDate().isAfter(java.time.LocalDate.now())) {
+            throw new IllegalArgumentException("Treatment date cannot be in the future.");
+        }
         return treatmentRepository.save(treatment);
     }
 
     public Treatment update(Integer id, Treatment treatment) {
         Treatment existing = treatmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Treatment not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Treatment not found with id: " + id));
 
         existing.setDiagnosis(treatment.getDiagnosis());
         existing.setPrescriptionDetails(treatment.getPrescriptionDetails());
@@ -45,7 +50,7 @@ public class TreatmentService {
 
     public void delete(Integer id) {
         if (!treatmentRepository.existsById(id)) {
-            throw new RuntimeException("Treatment not found with id: " + id);
+            throw new ResourceNotFoundException("Treatment not found with id: " + id);
         }
         treatmentRepository.deleteById(id);
     }

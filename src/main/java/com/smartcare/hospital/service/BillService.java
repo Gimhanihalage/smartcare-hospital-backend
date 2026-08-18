@@ -1,6 +1,7 @@
 package com.smartcare.hospital.service;
 
 import com.smartcare.hospital.entity.Bill;
+import com.smartcare.hospital.ResourceNotFoundException.java.ResourceNotFoundException;
 import com.smartcare.hospital.repository.BillRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class BillService {
 
     public Bill getById(Integer id) {
         return billRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Bill not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Bill not found with id: " + id));
     }
 
     public Bill save(Bill bill) {
@@ -30,7 +31,7 @@ public class BillService {
 
     public void delete(Integer id) {
         if (!billRepository.existsById(id)) {
-            throw new RuntimeException("Bill not found with id: " + id);
+            throw new ResourceNotFoundException("Bill not found with id: " + id);
         }
         billRepository.deleteById(id);
     }

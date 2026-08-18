@@ -2,6 +2,7 @@ package com.smartcare.hospital.controller;
 
 import com.smartcare.hospital.entity.BillItem;
 import com.smartcare.hospital.service.BillItemService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class BillItemController {
     }
 
     @PostMapping
-    public ResponseEntity<BillItem> createBillItem(@RequestBody BillItem billItem) {
+    public ResponseEntity<BillItem> createBillItem(@Valid @RequestBody BillItem billItem) {
         BillItem saved = billItemService.save(billItem);
         return ResponseEntity.ok(saved);
     }

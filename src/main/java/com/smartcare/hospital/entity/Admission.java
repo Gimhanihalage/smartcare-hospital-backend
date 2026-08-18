@@ -1,6 +1,7 @@
 package com.smartcare.hospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
@@ -10,23 +11,28 @@ public class Admission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admission_id")
-    private Integer  admissionId;
+    private Integer admissionId;
 
+    @NotNull(message = "Patient is required")
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-
+    @NotNull(message = "Bed is required")
     @ManyToOne
     @JoinColumn(name = "bed_number")
     private Bed bed;
 
+    @NotNull(message = "Admission date is required")
+    @PastOrPresent(message = "Admission date cannot be in the future")
     @Column(name = "admission_date")
     private LocalDate admissionDate;
 
     @Column(name = "discharge_date")
     private LocalDate dischargeDate;
 
+    @NotBlank(message = "Admission status is required")
+    @Pattern(regexp = "Admitted|Discharged|Under Observation", message = "Admission status must be Admitted, Discharged, or Under Observation")
     @Column(name = "admission_status")
     private String admissionStatus;
 
