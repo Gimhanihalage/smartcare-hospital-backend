@@ -33,6 +33,11 @@ public class BillController {
         Bill saved = billService.save(bill);
         return ResponseEntity.ok(saved);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Bill> updateBill(@PathVariable Integer id, @Valid @RequestBody Bill bill) {
+        Bill updated = billService.update(id, bill);
+        return ResponseEntity.ok(updated);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBill(@PathVariable Integer id) {

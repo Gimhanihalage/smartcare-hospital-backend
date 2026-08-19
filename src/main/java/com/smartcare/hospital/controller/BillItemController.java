@@ -33,4 +33,9 @@ public class BillItemController {
         BillItem saved = billItemService.save(billItem);
         return ResponseEntity.ok(saved);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<BillItem> updateBillItem(@PathVariable Integer id, @Valid @RequestBody BillItem billItem) {
+        BillItem updated = billItemService.update(id, billItem);
+        return ResponseEntity.ok(updated);
+    }
 }

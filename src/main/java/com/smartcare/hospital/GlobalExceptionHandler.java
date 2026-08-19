@@ -2,6 +2,7 @@ package com.smartcare.hospital.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,6 +31,19 @@ public class GlobalExceptionHandler {
         error.put("error", "Validation Failed");
         error.put("message", "Input validation failed");
         error.put("errors", errors);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // Handles JPA transaction commit failures (e.g. Bean Validation constraint violations on save)
+    @ExceptionHandler(TransactionSystemException.class)
+    public ResponseEntity<Map<String, Object>> handleTransactionException(TransactionSystemException ex) {
+        ex.printStackTrace();
+        Throwable cause = ex.getRootCause();
+        Map<String, Object> error = new HashMap<>();
+        error.put("timestamp", LocalDateTime.now());
+        error.put("status", HttpStatus.BAD_REQUEST.value());
+        error.put("error", "Transaction Failed");
+        error.put("message", cause != null ? cause.getMessage() : ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 

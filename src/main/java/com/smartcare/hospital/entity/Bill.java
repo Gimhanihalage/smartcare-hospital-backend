@@ -26,7 +26,7 @@ public class Bill {
     private BigDecimal totalAmount;
 
     @NotBlank(message = "Payment status is required")
-    @Pattern(regexp = "PAID|UNPAID|PENDING", message = "Payment status must be PAID, UNPAID, or PENDING")
+    @Pattern(regexp = "Paid|Unpaid|Partially Paid", message = "Payment status must be Paid, Unpaid, or Partially Paid")
     @Column(name = "Payment_Status", length = 20)
     private String paymentStatus;
 

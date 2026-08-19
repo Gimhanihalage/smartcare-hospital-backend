@@ -36,6 +36,19 @@ public class BillItemService {
         return saved;
     }
 
+    public BillItem update(Integer id, BillItem billItemDetails) {
+        BillItem existing = billItemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Bill item not found with id: " + id));
+
+        existing.setItemType(billItemDetails.getItemType());
+        existing.setDescription(billItemDetails.getDescription());
+        existing.setAmount(billItemDetails.getAmount());
+
+        BillItem updated = billItemRepository.save(existing);
+        recalculateBillTotal(updated.getBill().getBillId());
+        return updated;
+    }
+
     public void delete(Integer id) {
         BillItem item = billItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Bill item not found with id: " + id));
@@ -44,7 +57,6 @@ public class BillItemService {
         recalculateBillTotal(billId);
     }
 
-    // Business logic - recalculate Bill's total amount from all its BillItems
     private void recalculateBillTotal(Integer billId) {
         List<BillItem> items = billItemRepository.findByBill_BillId(billId);
 
@@ -53,10 +65,10 @@ public class BillItemService {
                 .filter(a -> a != null)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        Bill bill = billRepository.findById(billId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bill not found with id: " + billId));
+        if (!billRepository.existsById(billId)) {
+            throw new ResourceNotFoundException("Bill not found with id: " + billId);
+        }
 
-        bill.setTotalAmount(total);
-        billRepository.save(bill);
+        billRepository.updateTotalAmount(billId, total);
     }
 }

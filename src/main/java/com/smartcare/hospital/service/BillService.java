@@ -28,6 +28,18 @@ public class BillService {
     public Bill save(Bill bill) {
         return billRepository.save(bill);
     }
+    public Bill update(Integer id, Bill billDetails) {
+        Bill existing = billRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Bill not found with id: " + id));
+
+        // Update editable fields only — totalAmount is NOT taken from client,
+        // it stays derived from Bill_Items via recalculation
+        existing.setBillDate(billDetails.getBillDate());
+        existing.setPaymentStatus(billDetails.getPaymentStatus());
+        existing.setPaymentMethod(billDetails.getPaymentMethod());
+
+        return billRepository.save(existing);
+    }
 
     public void delete(Integer id) {
         if (!billRepository.existsById(id)) {
